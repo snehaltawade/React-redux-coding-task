@@ -13,9 +13,12 @@ const UserRegistrationForm=()=>{
         setPersonalData(data)
         console.log("called",data)
     }
+    const toggleStepChangeHandler=()=>{
+        setShowNextStep(!showNextStep)
+    }
     return(
         <>
-        {showNextStep?<FormStepTwo personalData={personalData}/>:<FormStepOne onNextClick={stepChangeHandler} />}
+        {showNextStep?<FormStepTwo personalData={personalData} toggleStepChangeHandler={toggleStepChangeHandler}/>:<FormStepOne onNextClick={stepChangeHandler} />}
         </>
     )
 }

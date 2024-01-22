@@ -6,14 +6,17 @@ import StyledGrid from "../styledComponents/styledGrid"
 import { userAddressSchema } from "./userSchema"
 import * as yup from 'yup';
 import { useState } from "react"
+import { FormTwoProps } from "./UserInterface"
 
-const FormStepTwo = ({personalData}:FieldValues) => {
+const FormStepTwo = ({personalData,toggleStepChangeHandler}:FormTwoProps) => {
     const dispatch=useDispatch()
     const { register, handleSubmit } = useForm()
     const [error,setError]=useState<string[]>()
+    const [country,setCountry]=useState()
 
     const onSubmitHandler=(addressData: FieldValues)=>{
         let data={...personalData,...addressData}
+        data={...data,country:country}
         let submitform=false
         try{
             const parsedUser=userAddressSchema.cast(data)
@@ -37,12 +40,17 @@ const FormStepTwo = ({personalData}:FieldValues) => {
            
           };
         console.log("step two",data)
-        submitform && dispatch({type:'add_user',payload:data})
+        if(submitform){
+            dispatch({type:'add_user',payload:data})
+            alert("data updated succesfully")
+            toggleStepChangeHandler()
+        } 
 
     }
 
     const countryDataHandler=(country: any)=>{
         console.log(country)
+        setCountry(country)
     }
     return (
         <>
@@ -56,11 +64,11 @@ const FormStepTwo = ({personalData}:FieldValues) => {
                     <StyledGrid container item className="flext-start-center" flexWrap={'nowrap'}>
                         <FormLabel>State</FormLabel>
                         <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                            <InputLabel id="demo-simple-select-label">State</InputLabel>
                             <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
-                                label="Gov_Id"
+                                label="State"
                                 {...register("state")}
                             >
                                 <MenuItem value={'male'}>Maharashtra</MenuItem>
@@ -71,24 +79,24 @@ const FormStepTwo = ({personalData}:FieldValues) => {
                     <StyledGrid container item className="flext-start-center" flexWrap={'nowrap'}>
                         <FormLabel>City</FormLabel>
                          <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                            <InputLabel id="demo-simple-select-label">City</InputLabel>
                             <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
-                                label="Gov_Id"
+                                label="city"
                                 {...register("city")}
                             >
-                                <MenuItem value={'male'}>Maharashtra</MenuItem>
-                                <MenuItem value={'female'}>Karnataka</MenuItem>
+                                <MenuItem value={'male'}>Pune</MenuItem>
+                                <MenuItem value={'female'}>Mumbai</MenuItem>
                             </Select>
                         </FormControl>
                     </StyledGrid>
                     <StyledGrid container item className="flext-start-center">
-                        <CountryComponent />
+                        <CountryComponent countryHandler={countryDataHandler}/>
                     </StyledGrid>
                     <StyledGrid container item className="flext-start-center">
                         <FormLabel>Pincode</FormLabel>
-                        <TextField label="Enter Name" variant="outlined" {...register("pincode")}></TextField>
+                        <TextField label="Enter Pincode" variant="outlined" {...register("pincode")}></TextField>
                     </StyledGrid>
                     <Grid>
                         <Button variant="outlined"  onClick={handleSubmit((data)=>{onSubmitHandler(data)})}>Submit</Button>

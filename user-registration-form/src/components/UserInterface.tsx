@@ -8,3 +8,13 @@ export type Props = {
     onNextClick: (data:FieldValues) => void;
     data?: string;
   };
+
+export type CountryProps={
+    countryHandler: (data:String) => void;
+    data?: string;
+};
+
+export type FormTwoProps={
+    personalData?:FieldValues;
+    toggleStepChangeHandler:()=>void;
+}

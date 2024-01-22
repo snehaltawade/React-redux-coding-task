@@ -5,6 +5,8 @@ import { FieldValues } from "react-hook-form";
 import $ from 'jquery';
 import { useSelector } from "react-redux";
 import StyledTable from "../styledComponents/styledTable";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import Paper from '@mui/material/Paper';
 
 const TableComponent=({...props}:Config)=>{
     const tableRef = useRef<HTMLTableElement|null>(null);
@@ -26,32 +28,58 @@ const TableComponent=({...props}:Config)=>{
       }, []);
     return(
         <>
-        <StyledTable ref={tableRef} className="basic-table">
-        <thead>
-        <tr>
-          <th>Name</th>
-          <th>Age</th>
-          <th>Sex</th>
-          <th>Mobile</th>
-          <th>Gov id type</th>
-          <th>Address</th>
-        </tr>
-      </thead>
-      <tbody>
-        {userdata.map((item: { name: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined; age: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined; sex: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined; mobile: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined; idType: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined; address: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined; }) => (
-          <tr>
-            <td>{item.name}</td>
-            <td>{item.age}</td>
-            <td>{item.sex}</td>
-            <td>{item.mobile}</td>
-            <td>{item.idType}</td>
-            <td>{item.address}</td>
-          </tr>
-        ))}
-      </tbody>
-        </StyledTable>
+        <TableContainer component={Paper}>
+<StyledTable sx={{ minWidth: 650 }} aria-label="simple table" className="basic-table">
+  <TableHead>
+    <TableRow>
+      <TableCell>Name</TableCell>
+      <TableCell align="right">Age</TableCell>
+      <TableCell align="right">Sex</TableCell>
+      <TableCell align="right">Mobile</TableCell>
+      <TableCell align="right">Gov id type</TableCell>
+      <TableCell>Gov id</TableCell>
+        <TableCell>Country</TableCell>
+        <TableCell>State</TableCell>
+        <TableCell>City</TableCell>
+        <TableCell>Pincode</TableCell>
+        <TableCell>Addess</TableCell>
+    </TableRow>
+  </TableHead>
+  <TableBody>
+    {userdata.map((item: {
+            mobile: ReactNode;
+            idType: ReactNode;
+            gov_id: ReactNode;
+            country: ReactNode;
+            state: ReactNode;
+            city: ReactNode;
+            pincode: ReactNode; name: string | Iterable<ReactNode> | ReactPortal | null | undefined; 
+            age: string | number | null | undefined; sex: string | number | null | undefined; 
+            address: ReactNode;
+}) => (
+      <TableRow
+        // key={row.name}
+        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+      >
+         <TableCell>{item.name}</TableCell>
+            <TableCell>{item.age}</TableCell>
+            <TableCell>{item.sex}</TableCell>
+            <TableCell>{item.mobile}</TableCell>
+            <TableCell>{item.idType}</TableCell>
+            <TableCell>{item.gov_id}</TableCell>
+            <TableCell>{item.country}</TableCell>
+            <TableCell>{item.state}</TableCell>
+            <TableCell>{item.city}</TableCell>
+            <TableCell>{item.pincode}</TableCell>
+            <TableCell>{item.address}</TableCell>
+      </TableRow>
+    ))}
+  </TableBody>
+</StyledTable>
+</TableContainer>
         </>
     )
 }
+
 
 export default TableComponent;

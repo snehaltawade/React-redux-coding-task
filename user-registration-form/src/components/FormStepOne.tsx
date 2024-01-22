@@ -28,7 +28,7 @@ const FormStepOne:React.FC<any>= ({onNextClick,}:Props)=>{
             console.error(error.errors)
             let e=error.errors
             setError(e)
-            showStepTwo=true
+            showStepTwo=false
         }
         else{
             console.log(error)

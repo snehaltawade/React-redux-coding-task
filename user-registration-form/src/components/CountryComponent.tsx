@@ -1,13 +1,21 @@
 import { Autocomplete, FormLabel, TextField } from "@mui/material"
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form"
+import { CountryProps } from "./UserInterface";
 
-const CountryComponent=()=>{
+const CountryComponent=({countryHandler,}:CountryProps)=>{
     const { register, handleSubmit } = useForm()
     const [inputValue, setInputValue] = useState('');
     const [result, setResult] = useState<string[]>([]);
-    const api = async (name: string) => {
-        const data = await fetch(`https://restcountries.com/v3.1/name/${name}`, {
+    const [value, setValue] = useState<string | null>(result[0]);
+    useEffect(()=>{
+      api('https://restcountries.com/v3.1/all')
+    },[])
+    const api = async (url: string,name: string='',) => {
+      console.log("name",name,name=='')
+      let URL=''
+      name==''?URL=url:URL=`${url}/${name}`
+        const data = await fetch(URL, {
           method: "GET"
         });
         const jsonData = await data.json();
@@ -24,7 +32,7 @@ const CountryComponent=()=>{
     let strLength: number = newInputValue.length;
     console.log(newInputValue,'--',strLength)
     if(newInputValue!==undefined && newInputValue!=='' &&strLength>0){
-        api(newInputValue)
+        api('https://restcountries.com/v3.1/name',newInputValue)
     }
 
   }
@@ -36,9 +44,10 @@ const CountryComponent=()=>{
       disablePortal
       id="combo-box-demo"
       options={result}
+      value={value}
       inputValue={inputValue}
         onInputChange={(event, newInputValue) => {
-            fetchCoutryData(newInputValue)
+          countryHandler(newInputValue)
           setInputValue(newInputValue);
         }}
       sx={{ width: 300 }}

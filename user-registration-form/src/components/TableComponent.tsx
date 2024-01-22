@@ -19,7 +19,7 @@ const TableComponent=({...props}:Config)=>{
     useEffect(() => {
         console.log("running only once")
         // tableRef.current?.remove()
-            // const dt = new DataTables(tableRef.current!,{...props})
+            const dt = new DataTables(tableRef.current!,{...props})
             return () => {
                 // dt.destroy()
                 console.log("---stopping")
@@ -29,7 +29,7 @@ const TableComponent=({...props}:Config)=>{
     return(
         <>
         <TableContainer component={Paper}>
-<StyledTable sx={{ minWidth: 650 }} aria-label="simple table" className="basic-table">
+<StyledTable sx={{ minWidth: 650 }} aria-label="simple table" className="basic-table" ref={tableRef}>
   <TableHead>
     <TableRow>
       <TableCell>Name</TableCell>
